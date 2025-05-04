@@ -1,0 +1,1 @@
+export const AUTH_VERSION_CONST = 3_000_000_000;
