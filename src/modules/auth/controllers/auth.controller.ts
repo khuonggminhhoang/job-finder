@@ -5,24 +5,20 @@ import {
   EmailUserDto,
   LoginAuthDto,
   RegisterAuthDto,
-  ResetPasswordDto,
+  ResetPasswordDto, SetPasswordDto,
 } from '@/modules/users/dtos/user.dto';
-import { LoginGoogleDto } from '@/modules/auth/dtos/auth.dto';
-import { GoogleService } from '@/base/google/google.service';
 import { SkipAuth, UserAuth } from '@/modules/auth/common/jwt.decorator';
 import { ApiBearerAndTags } from '@/base/swagger/swagger.decorator';
 import { UserEntity } from '@/modules/users/entities/user.entity';
 import { JwtAuthGuard } from '@/modules/auth/common/jwt.guard';
 import { JwtRefreshGuard } from '@/modules/auth/common/jwt-refresh.guard';
+import { VerifyOtpDto } from '@/modules/auth/dtos/auth.dto';
 
 @ApiTags('Auth - Xác thực')
 @SkipAuth()
 @Controller('auth')
 export class AuthPublicController {
-  constructor(
-    private readonly authService: AuthService,
-    private readonly googleService: GoogleService,
-  ) {}
+  constructor(private readonly authService: AuthService) {}
 
   // AUTH
   @Post('/register')
@@ -39,8 +35,8 @@ export class AuthPublicController {
 
   @Post('/reset-password')
   @ApiOperation({ summary: 'Reset mật khẩu cho tài khoản' })
-  resetPassword(@Body() resetPasswordDto: ResetPasswordDto) {
-    return this.authService.resetPassword(resetPasswordDto);
+  resetPassword(@Body() dto: SetPasswordDto) {
+    return this.authService.resetPassword(dto);
   }
 
   @Post('/forgot-password')
@@ -49,17 +45,17 @@ export class AuthPublicController {
     return this.authService.forgotPassword(dto);
   }
 
+  @Post('/verify-otp')
+  @ApiOperation({ summary: 'Xác thực OTP' })
+  verifyOtp(@Body() dto: VerifyOtpDto) {
+    return this.authService.verifyOtp(dto);
+  }
+
   @UseGuards(JwtRefreshGuard)
   @ApiOperation({ summary: 'Lấy lại access token mới' })
   @Post('/refresh-token')
   refreshToken(@UserAuth() user: UserEntity) {
     return this.authService.refreshToken(user);
-  }
-
-  @Post('/google/login')
-  @ApiOperation({ summary: 'login google' })
-  loginGoogle(@Body() dto: LoginGoogleDto): any {
-    return this.googleService.login(dto);
   }
 }
 

@@ -4,7 +4,7 @@ import {
   EmailUserDto,
   LoginAuthDto,
   RegisterAuthDto,
-  ResetPasswordDto,
+  SetPasswordDto,
 } from '@/modules/users/dtos/user.dto';
 import { UserEntity } from '@/modules/users/entities/user.entity';
 import { UserService } from '@/modules/auth/services/user.service';
@@ -12,7 +12,8 @@ import * as exc from '@/base/exceptions';
 import { MailService } from '@/base/mail/mail.service';
 import { BadRequestException } from '@/base/exceptions';
 import { config } from '@/config/config.service';
-import { ForgotPasswordService } from '@/modules/auth/services/forgot-password.service';
+import { OtpService } from '@/base/otp/otp.service';
+import { VerifyOtpDto } from '@/modules/auth/dtos/auth.dto';
 
 @Injectable()
 export class AuthService {
@@ -20,7 +21,7 @@ export class AuthService {
     private readonly userService: UserService,
     private readonly jwtAuthService: JwtAuthService,
     private readonly mailService: MailService,
-    private readonly forgotPasswordService: ForgotPasswordService,
+    private readonly otpService: OtpService,
   ) {}
 
   // auth
@@ -58,33 +59,24 @@ export class AuthService {
     return this.getToken(user);
   }
 
+  verifyOtp(dto: VerifyOtpDto) {
+    const { otp, email } = dto;
+    return {
+      isVerified: this.otpService.verifyOTP(otp, email),
+      email,
+    };
+  }
+
   async logout(user: UserEntity) {
     user.authVersion = 0;
     await user.save();
   }
 
-  async resetPassword(dto: ResetPasswordDto) {
-    const token = dto.token;
-    const newPassword = dto.newPassword;
-    const isNotExpToken = await this.forgotPasswordService.findNewestBy({
-      isExpired: false,
-      token: token,
-    });
-
-    const user = isNotExpToken.user;
+  async resetPassword(dto: SetPasswordDto) {
+    const { newPassword, email } = dto;
+    const user = await this.userService.getUserOrThrow({ email });
     user.setPassword(newPassword);
-    await user.save();
-
-    if (isNotExpToken) {
-      isNotExpToken.isExpired = true;
-      await isNotExpToken.save();
-      return;
-    }
-
-    throw new BadRequestException({
-      error: 'AUTH.TOKEN_EXPIRED',
-      message: 'Token expired',
-    });
+    return user.save();
   }
 
   // token jwt
@@ -108,18 +100,15 @@ export class AuthService {
 
   async forgotPassword(dto: EmailUserDto) {
     const user = await this.userService.getUserOrThrow({ email: dto.email });
-    const forgotPassword =
-      await this.forgotPasswordService.createTokenForgotPassword(user.id);
-    const param = forgotPassword.token;
-    const link = `${config.FE_URL}/reset-password?token=${param}`;
+    const otp = this.otpService.generateOTP(dto.email);
     await this.mailService.sendMail(
       dto.email,
-      '[FINANCE_MANAGEMENT] Mapping your success - Verify account email',
+      '[JOB_FINDER] Mapping your success - Verify account email',
       null,
       'change-password.hbs',
       {
-        link: link,
-        name: `${user.lastName} ${user.firstName}`,
+        otp: otp,
+        name: `${user.name}`,
         expiry: config.TOKEN_EXP,
       },
     );

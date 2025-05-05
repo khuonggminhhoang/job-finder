@@ -9,7 +9,7 @@ const configuration = {
   port: +(process.env.DB_PORT ?? '3306'),
   username: process.env.DB_USERNAME ?? 'root',
   password: process.env.DB_PASSWORD,
-  database: process.env.DB_DATABASE ?? 'finance_management',
+  database: process.env.DB_DATABASE ?? 'job_finder',
 };
 
 export const dataSourceOptions = {

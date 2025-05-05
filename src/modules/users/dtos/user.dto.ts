@@ -1,5 +1,4 @@
 import {
-  IS_PHONE_NUMBER,
   IsDateString,
   IsEmail,
   IsNotEmpty,
@@ -12,19 +11,16 @@ import {
   MinLength,
 } from 'class-validator';
 import {
-  ApiHideProperty,
-  ApiProperty, ApiPropertyOptional,
+  ApiProperty,
+  ApiPropertyOptional,
   IntersectionType,
   PartialType,
 } from '@nestjs/swagger';
 import {
   ToLowerCase,
   TransformDate,
-  TransformNumber,
   Trim,
 } from '@/base/validators/validator.transformer';
-import { ImageEntity } from '@/modules/images/entities/image.entity';
-import { CurrencyEntity } from '@/modules/currencies/entities/currency.entity';
 import { PhotoBodyDto } from '@/base/api/dtos/common.dto';
 import { Type } from 'class-transformer';
 
@@ -99,23 +95,14 @@ export class RegisterAuthDto {
   @MinLength(10)
   @MaxLength(50)
   @IsOptional()
-  dob?: string | Date;
+  dateOfBirth?: string | Date;
 
-  @ApiProperty({ example: 'Khương' })
+  @ApiProperty({ example: 'Hoàng Minh Khương' })
   @IsString()
   @Trim()
   @IsNotEmpty()
   @MaxLength(30)
-  @IsOptional()
-  firstName?: string;
-
-  @ApiProperty({ example: 'Hoàng Minh' })
-  @IsString()
-  @Trim()
-  @IsNotEmpty()
-  @MaxLength(30)
-  @IsOptional()
-  lastName?: string;
+  name: string;
 
   @ApiProperty({ example: '0377476212' })
   @IsNotEmpty()
@@ -124,12 +111,6 @@ export class RegisterAuthDto {
   @MaxLength(12)
   @IsOptional()
   phoneNumber?: string;
-
-  @ApiProperty()
-  @IsNotEmpty()
-  @Trim()
-  @IsOptional()
-  googleId?: string;
 }
 
 export class EmailUserDto {
@@ -143,7 +124,7 @@ export class EmailUserDto {
   email: string;
 }
 
-export class SetPasswordDto {
+export class SetPasswordDto extends EmailUserDto {
   @ApiProperty({ example: '123123123' })
   @Trim()
   @ToLowerCase()
@@ -179,7 +160,7 @@ export class UserDto {
   @IsDateString()
   @IsNotEmpty()
   @Trim()
-  dob: Date;
+  dateOfBirth: Date;
 
   @ApiProperty({ type: 'string' })
   @IsString()
@@ -204,12 +185,4 @@ export class UpdateProfileUserDto extends PartialType(
   @Type(() => Number)
   @IsPositive()
   currencyId?: number;
-
-  @ApiHideProperty()
-  @IsOptional()
-  image?: ImageEntity;
-
-  @ApiHideProperty()
-  @IsOptional()
-  currency?: CurrencyEntity;
 }

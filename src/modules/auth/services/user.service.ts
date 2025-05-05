@@ -16,12 +16,7 @@ export class UserService {
   async getUser(
     option: Partial<UserEntity> | ObjectLiteral[],
   ): Promise<UserEntity> {
-    return this.repository
-      .createQueryBuilder('user')
-      .leftJoinAndSelect('user.currency', 'currencies')
-      .leftJoinAndSelect('user.image', 'images')
-      .where(option)
-      .getOne();
+    return this.repository.createQueryBuilder('users').where(option).getOne();
   }
 
   async getUserOrThrow(option: Partial<UserEntity>): Promise<UserEntity> {

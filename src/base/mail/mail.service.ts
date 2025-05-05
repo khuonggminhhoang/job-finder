@@ -17,7 +17,7 @@ export class MailService {
     return this.mailerService
       .sendMail({
         to: receiver,
-        from: `Finance Management <${config.EMAIL_FROM_ADDRESS}>`,
+        from: `Job Finder <${config.EMAIL_FROM_ADDRESS}>`,
         subject: subject.toUpperCase(),
         text: text,
         template: template,

@@ -9,16 +9,16 @@ export class ConfigService {
 
   DB_HOST: string = env.DB_HOST ?? 'localhost';
   DB_PORT = +(env.DB_PORT ?? 3306);
-  DB_USER = env.DB_USER ?? 'root';
+  DB_USER = env.DB_USERNAME ?? 'root';
   DB_PASSWORD = env.DB_PASSWORD ?? '';
-  DB_NAME = env.DB_NAME ?? '';
+  DB_DATABASE = env.DB_DATABASE ?? 'job_finder';
 
   FE_URL = env.FE_URL ?? 'http://localhost:3000';
   PREFIX = 'api/v1';
   TOKEN_EXP = +(env.TOKEN_EXP ?? '15');
 
   SWAGGER = {
-    TITLE: 'Finance Management API Docs',
+    TITLE: 'Job Finder API Docs',
     VERSION: 'v1.0.0',
     DESCRIPTION: 'Description document for Rest API',
     CONTACT: {
@@ -27,7 +27,7 @@ export class ConfigService {
       EMAIL: 'minhkhuong782k3@gmail.com',
     },
     CUSTOM: {
-      SITE_TITLE: 'API docs finance management',
+      SITE_TITLE: 'API docs Job Finder',
     },
   };
 
@@ -43,7 +43,7 @@ export class ConfigService {
   OTP_SECRET = env.OTP_SECRET ?? 'otp-secret-key';
   OTP_OPTION = {
     digits: 6,
-    step: 60,
+    step: 60 * 10,
     window: 1,
   };
 
@@ -67,10 +67,10 @@ export class ConfigService {
     S3_REGION: env.S3_REGION,
     PATH_IMG: {
       user: (userId: number) => ['img', 'user', userId],
-      upload: () => ['img', 'default'],
-      category: () => ['img', 'category'],
-      country: () => ['img', 'country'],
-      bank: () => ['img', 'bank'],
+      // upload: () => ['img', 'default'],
+      // category: () => ['img', 'category'],
+      // country: () => ['img', 'country'],
+      // bank: () => ['img', 'bank'],
     },
   };
 }

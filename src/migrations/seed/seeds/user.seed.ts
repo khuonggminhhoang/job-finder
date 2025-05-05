@@ -5,9 +5,8 @@ import { Injectable } from '@nestjs/common';
 
 const data = {
   id: 1,
-  firstName: 'Khuong',
-  lastName: 'Hoang Minh',
-  dob: '2003/08/07',
+  name: 'Hoàng Minh Khương',
+  dateOfBirth: '2003-08-07',
   phoneNumber: '0377476212',
   email: 'minhkhuong782k3@gmail.com',
   username: 'khuong.hm',
