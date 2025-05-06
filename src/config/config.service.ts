@@ -42,7 +42,7 @@ export class ConfigService {
   // OTP
   OTP_SECRET = env.OTP_SECRET ?? 'otp-secret-key';
   OTP_OPTION = {
-    digits: 6,
+    digits: 4,
     step: 60 * 10,
     window: 1,
   };

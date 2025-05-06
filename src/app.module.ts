@@ -9,6 +9,8 @@ import { UserModule } from '@/modules/users/user.module';
 import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { ConfigModule } from '@/config/config.module';
 import { JwtAuthGuard } from '@/modules/auth/common/jwt.guard';
+import { JobCategoryModule } from '@/modules/job-categories/job-category.module';
+import { CompanyModule } from '@/modules/companies/company.module';
 
 @Module({
   imports: [
@@ -18,6 +20,8 @@ import { JwtAuthGuard } from '@/modules/auth/common/jwt.guard';
     // app module
     AuthModule,
     UserModule,
+    JobCategoryModule,
+    CompanyModule,
 
     // core module
     SeederModule,
