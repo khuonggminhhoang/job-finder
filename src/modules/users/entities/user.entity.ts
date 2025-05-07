@@ -1,9 +1,10 @@
-import { Column, Entity } from 'typeorm';
+import { Column, Entity, ManyToMany } from 'typeorm';
 import { BaseEntity } from '@/base/model/model.entity';
 import { Exclude } from 'class-transformer';
 import bcrypt from 'bcryptjs';
 import { config } from '@/config/config.service';
 import { AUTH_VERSION_CONST } from '@/modules/users/constants/user.constant';
+import { JobEntity } from '@/modules/jobs/entities/job.entity';
 
 @Entity('users')
 export class UserEntity extends BaseEntity {
@@ -41,6 +42,12 @@ export class UserEntity extends BaseEntity {
   @Column({ name: 'auth_version', type: 'bigint', nullable: true, default: 0 })
   @Exclude()
   authVersion: number;
+
+  @ManyToMany(() => JobEntity, (job) => job.users, {
+    cascade: ['insert', 'update'],
+    onDelete: 'CASCADE',
+  })
+  jobs: JobEntity[];
 
   refreshAuthVersion(isSave: boolean = false): Promise<this> {
     this.authVersion = Date.now() % AUTH_VERSION_CONST;
