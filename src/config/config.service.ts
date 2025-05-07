@@ -65,9 +65,9 @@ export class ConfigService {
     S3_SECRET_ACCESS_KEY: env.S3_SECRET_ACCESS_KEY,
     S3_BUCKET: env.S3_BUCKET,
     S3_REGION: env.S3_REGION,
-    PATH_IMG: {
+    PATH: {
       user: (userId: number) => ['img', 'user', userId],
-      // upload: () => ['img', 'default'],
+      uploadCV: (userId: number) => ['CV', userId],
       // category: () => ['img', 'category'],
       // country: () => ['img', 'country'],
       // bank: () => ['img', 'bank'],

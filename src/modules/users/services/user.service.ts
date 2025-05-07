@@ -52,7 +52,7 @@ export class UserService extends BaseCrudService<UserEntity> {
     if (file) {
       const resultUpload = await this.s3Service.uploadByMulter(
         file,
-        config.S3.PATH_IMG.user(userId),
+        config.S3.PATH.user(userId),
       );
       dto.photoFile = resultUpload.uploadFile.path as string;
     }

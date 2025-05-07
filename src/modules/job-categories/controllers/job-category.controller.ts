@@ -9,8 +9,7 @@ import {
   ParseIntPipe,
 } from '@nestjs/common';
 import { JobCategoryService } from '../services/job-category.service';
-import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { JobCategoryEntity } from '@/modules/job-categories/entities/job-category.entity';
+import { ApiTags, ApiOperation } from '@nestjs/swagger';
 import {
   CreateJobCategoryDto,
   UpdateJobCategoryDto,
@@ -37,11 +36,6 @@ export class JobCategoryController {
 
   @Get(':id')
   @ApiOperation({ summary: 'Lấy chi tiết một job category' })
-  @ApiResponse({
-    status: 200,
-    description: 'Return the job category.',
-    type: JobCategoryEntity,
-  })
   findOne(@Param('id') id: number) {
     return this.jobCategoryService.getOne({
       where: { id },
@@ -50,12 +44,7 @@ export class JobCategoryController {
   }
 
   @Patch(':id')
-  @ApiOperation({ summary: 'Update a job category' })
-  @ApiResponse({
-    status: 200,
-    description: 'The job category has been successfully updated.',
-    type: JobCategoryEntity,
-  })
+  @ApiOperation({ summary: 'Cập nhật một job category' })
   update(
     @Param('id', ParseIntPipe) id: number,
     @Body() updateJobCategoryDto: UpdateJobCategoryDto,
@@ -64,11 +53,7 @@ export class JobCategoryController {
   }
 
   @Delete(':id')
-  @ApiOperation({ summary: 'Delete a job category' })
-  @ApiResponse({
-    status: 200,
-    description: 'The job category has been successfully deleted.',
-  })
+  @ApiOperation({ summary: 'Xóa một job category' })
   remove(@Param('id') id: number) {
     return this.jobCategoryService.softDeleteById(id);
   }

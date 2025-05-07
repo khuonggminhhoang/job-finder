@@ -58,3 +58,9 @@ export class PhotoBodyDto {
   @IsOptional()
   photoFile: string;
 }
+
+export class FileBodyDto {
+  @ApiProperty({ type: 'string', format: 'binary', required: true })
+  @IsOptional()
+  file: string;
+}
