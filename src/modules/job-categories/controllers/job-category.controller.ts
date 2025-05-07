@@ -43,7 +43,10 @@ export class JobCategoryController {
     type: JobCategoryEntity,
   })
   findOne(@Param('id') id: number) {
-    return this.jobCategoryService.getById(id);
+    return this.jobCategoryService.getOne({
+      where: { id },
+      relations: ['jobs'],
+    });
   }
 
   @Patch(':id')

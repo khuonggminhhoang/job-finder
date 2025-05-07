@@ -1,0 +1,18 @@
+export enum JOB_STATUS {
+  OPEN = 'OPEN',
+  CLOSE = 'CLOSE',
+}
+
+export enum SALARY_PERIOD {
+  MONTH = 'MONTH',
+  YEAR = 'YEAR',
+  HOUR = 'HOUR',
+}
+
+export enum JOB_TYPE {
+  FULL_TIME = 'FULL_TIME',
+  PART_TIME = 'PART_TIME',
+  CONTRACT = 'CONTRACT',
+  INTERNSHIP = 'INTERNSHIP',
+  FREELANCE = 'FREELANCE',
+}
