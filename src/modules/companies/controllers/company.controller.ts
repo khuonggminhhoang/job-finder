@@ -31,6 +31,12 @@ export class CompanyController {
     return this.companyService.list();
   }
 
+  @Get('top')
+  @ApiOperation({ summary: 'Lấy danh sách các công ty nổi bật' })
+  getTopCompanies() {
+    return this.companyService.getTopCompanies();
+  }
+
   @Get(':id')
   @ApiOperation({ summary: 'Lấy thông tin chi tiết công ty' })
   findOne(@Param('id') id: number) {

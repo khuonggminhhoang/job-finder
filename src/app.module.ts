@@ -11,6 +11,7 @@ import { ConfigModule } from '@/config/config.module';
 import { JwtAuthGuard } from '@/modules/auth/common/jwt.guard';
 import { JobCategoryModule } from '@/modules/job-categories/job-category.module';
 import { CompanyModule } from '@/modules/companies/company.module';
+import { JobModule } from '@/modules/jobs/job.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { CompanyModule } from '@/modules/companies/company.module';
     UserModule,
     JobCategoryModule,
     CompanyModule,
+    JobModule,
 
     // core module
     SeederModule,
