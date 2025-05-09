@@ -1,10 +1,11 @@
-import { Column, Entity, ManyToMany } from 'typeorm';
+import { Column, Entity, ManyToMany, OneToMany } from 'typeorm';
 import { BaseEntity } from '@/base/model/model.entity';
 import { Exclude } from 'class-transformer';
 import bcrypt from 'bcryptjs';
 import { config } from '@/config/config.service';
 import { AUTH_VERSION_CONST } from '@/modules/users/constants/user.constant';
 import { JobEntity } from '@/modules/jobs/entities/job.entity';
+import { NotificationEntity } from '@/modules/notifications/entities/notification.entity';
 
 @Entity('users')
 export class UserEntity extends BaseEntity {
@@ -48,6 +49,11 @@ export class UserEntity extends BaseEntity {
     onDelete: 'CASCADE',
   })
   jobs: JobEntity[];
+
+  @OneToMany(() => NotificationEntity, (noti) => noti.user, {
+    cascade: ['insert', 'update'],
+  })
+  notifications: NotificationEntity[];
 
   refreshAuthVersion(isSave: boolean = false): Promise<this> {
     this.authVersion = Date.now() % AUTH_VERSION_CONST;
