@@ -14,6 +14,7 @@ import { CompanyModule } from '@/modules/companies/company.module';
 import { JobModule } from '@/modules/jobs/job.module';
 import { ApplicationModule } from '@/modules/applications/application.module';
 import { NotificationModule } from '@/modules/notifications/notification.module';
+import { SkillModule } from '@/modules/skills/skill.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { NotificationModule } from '@/modules/notifications/notification.module'
     JobModule,
     ApplicationModule,
     NotificationModule,
+    SkillModule,
 
     // core module
     SeederModule,

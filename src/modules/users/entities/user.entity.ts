@@ -6,6 +6,7 @@ import { config } from '@/config/config.service';
 import { AUTH_VERSION_CONST } from '@/modules/users/constants/user.constant';
 import { JobEntity } from '@/modules/jobs/entities/job.entity';
 import { NotificationEntity } from '@/modules/notifications/entities/notification.entity';
+import { SkillEntity } from '@/modules/skills/entities/skill.entity';
 
 @Entity('users')
 export class UserEntity extends BaseEntity {
@@ -54,6 +55,11 @@ export class UserEntity extends BaseEntity {
     cascade: ['insert', 'update'],
   })
   notifications: NotificationEntity[];
+
+  @OneToMany(() => SkillEntity, (skill) => skill.user, {
+    cascade: ['insert', 'update'],
+  })
+  skills: SkillEntity[];
 
   refreshAuthVersion(isSave: boolean = false): Promise<this> {
     this.authVersion = Date.now() % AUTH_VERSION_CONST;
