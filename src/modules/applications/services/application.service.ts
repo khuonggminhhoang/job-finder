@@ -4,7 +4,7 @@ import { Repository, SelectQueryBuilder } from 'typeorm';
 import { ApplicationEntity } from '../entities/application.entity';
 import { BaseCrudService } from '@/base/api/services/base-crud.service';
 import { QuerySpecificationDto } from '@/base/api/dtos/query-specification.dto';
-import { CreateApplicationDto } from '../dtos/application.dto';
+import { CreateApplicationDto } from '@/modules/applications/dtos/application.dto';
 
 @Injectable()
 export class ApplicationService extends BaseCrudService<ApplicationEntity> {

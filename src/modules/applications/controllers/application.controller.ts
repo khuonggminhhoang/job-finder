@@ -15,7 +15,7 @@ import { ApplicationService } from '../services/application.service';
 import { ApiConsumes, ApiOperation } from '@nestjs/swagger';
 import {
   CreateApplicationDto,
-  UpdateApplicationDto, UpdateStatusApplicationDto,
+  UpdateStatusApplicationDto,
 } from '../dtos/application.dto';
 import { SkipAuth, UserAuth } from '@/modules/auth/common/jwt.decorator';
 import { ApiBearerAndTags } from '@/base/swagger/swagger.decorator';

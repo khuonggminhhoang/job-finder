@@ -32,7 +32,7 @@ export class CompanyController {
   }
 
   @Get('top')
-  @ApiOperation({ summary: 'Lấy danh sách các công ty nổi bật' })
+  @ApiOperation({ summary: 'Lấy danh sách top các công ty' })
   getTopCompanies() {
     return this.companyService.getTopCompanies();
   }

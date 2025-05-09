@@ -1,11 +1,11 @@
-import { Controller, Post, Body, UseGuards, Delete, Param, ParseIntPipe, Get } from '@nestjs/common';
+import { Controller, Post, Body, Delete, Param, ParseIntPipe, Get } from '@nestjs/common';
 import { UserService } from '@/modules/users/services/user.service';
 import { ApiOperation } from '@nestjs/swagger';
 import { SaveJobDto } from '../dtos/save-job.dto';
 import { UserAuth } from '@/modules/auth/common/jwt.decorator';
 import { ApiBearerAndTags } from '@/base/swagger/swagger.decorator';
 
-@ApiBearerAndTags('User')
+@ApiBearerAndTags('Favorite')
 @Controller('users')
 export class UserController {
   constructor(private readonly userService: UserService) {}

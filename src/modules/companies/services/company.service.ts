@@ -13,7 +13,7 @@ export class CompanyService extends BaseCrudService<CompanyEntity> {
     super(CompanyEntity, 'companies', companyRepository);
   }
 
-  async getTopCompanies() {
+  async   getTopCompanies() {
     return this.companyRepository.find({
       where: { isTopCompany: true },
       order: { createdAt: 'DESC' }

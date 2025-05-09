@@ -20,7 +20,7 @@ import {
         storage: undefined,
         fileFilter: fileFilter(UPLOAD_PDF_EXTNAME),
         limits: {
-          fileSize: 10 * 1024 * 1024, // Tăng giới hạn lên 10MB cho PDF
+          fileSize: 10 * 1024 * 1024, // 10MB cho PDF
         },
       }),
     ),
