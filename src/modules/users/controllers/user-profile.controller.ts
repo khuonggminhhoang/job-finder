@@ -25,7 +25,6 @@ export class ProfileUserController {
   getMe(@UserAuth('id') userId: number) {
     return this.userService.getOne({
       where: { id: userId },
-      relations: ['currency', 'image', 'currency.image'],
     });
   }
 

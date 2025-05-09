@@ -147,19 +147,12 @@ export class UserDto {
   @IsString()
   @IsNotEmpty()
   @Trim()
-  firstName: string;
-
-  @ApiProperty({ type: 'string' })
-  @IsString()
-  @IsNotEmpty()
-  @Trim()
-  lastName: string;
+  name: string;
 
   @ApiProperty()
-  @TransformDate()
-  @IsDateString()
   @IsNotEmpty()
   @Trim()
+  @TransformDate()
   dateOfBirth: Date;
 
   @ApiProperty({ type: 'string' })
@@ -169,20 +162,28 @@ export class UserDto {
   @Matches(/^\d{10,11}$/, { message: 'Phone number must be 10-11 digits' })
   @IsPhoneNumber('VN', { message: 'Invalid Vietnamese phone number' })
   phoneNumber: string;
+
+  @ApiProperty()
+  @IsString()
+  @IsNotEmpty()
+  @Trim()
+  headline: string;
+
+  @ApiProperty()
+  @IsString()
+  @IsNotEmpty()
+  @Trim()
+  location: string;
+
+  @ApiProperty()
+  @IsString()
+  @IsNotEmpty()
+  @Trim()
+  aboutMe: string;
 }
 
 export class UpdateProfileUserDto extends PartialType(
   IntersectionType(UserDto, PhotoBodyDto),
 ) {
-  @ApiPropertyOptional()
-  @IsOptional()
-  @Type(() => Number)
-  @IsPositive()
-  imageId?: number;
-
-  @ApiPropertyOptional()
-  @IsOptional()
-  @Type(() => Number)
-  @IsPositive()
-  currencyId?: number;
+  avatar?: string;
 }

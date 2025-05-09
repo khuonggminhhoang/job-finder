@@ -32,14 +32,10 @@ export class UserService extends BaseCrudService<UserEntity> {
   async updateOne(id: number, dto: UpdateProfileUserDto) {
     const record = (await this.getOne({
       where: { id },
-      relations: ['image'],
     })) as UserEntity;
-    // if (dto.photoFile) {
-    //   record.image.url = dto.photoFile;
-    //   delete record.imageId;
-    // } else {
-    //   delete record.image;
-    // }
+    if (dto.photoFile) {
+      record.avatar = dto.photoFile;
+    }
     _.assign(
       record,
       _.pickBy(dto, (v) => v !== undefined),
