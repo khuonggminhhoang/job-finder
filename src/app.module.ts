@@ -15,6 +15,7 @@ import { JobModule } from '@/modules/jobs/job.module';
 import { ApplicationModule } from '@/modules/applications/application.module';
 import { NotificationModule } from '@/modules/notifications/notification.module';
 import { SkillModule } from '@/modules/skills/skill.module';
+import { ExperienceModule } from '@/modules/experiences/experience.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { SkillModule } from '@/modules/skills/skill.module';
     ApplicationModule,
     NotificationModule,
     SkillModule,
+    ExperienceModule,
 
     // core module
     SeederModule,
