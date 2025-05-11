@@ -26,9 +26,12 @@ export class JobService extends BaseCrudService<JobEntity> {
       .leftJoinAndSelect(`${this.alias}.category`, 'categories');
 
     queryDto.location &&
-      queryBuilder.andWhere(`${this.alias}.location = :location`, {
-        location: queryDto.location,
-      });
+      queryBuilder.andWhere(
+        `LOWER(${this.alias}.location) LIKE LOWER(:location)`,
+        {
+          location: `%${queryDto.location}%`,
+        },
+      );
 
     queryDto.jobCategoryId &&
       queryBuilder.andWhere(`${this.alias}.categoryId = :categoryId`, {
