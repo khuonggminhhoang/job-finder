@@ -6,13 +6,13 @@ import {
   Patch,
   Param,
   Delete,
-  ParseIntPipe, Query,
+  ParseIntPipe,
+  Query,
 } from '@nestjs/common';
 import { JobService } from '../services/job.service';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
-import { CreateJobDto, UpdateJobDto } from '../dtos/job.dto';
+import { CreateJobDto, FilterJobDto, UpdateJobDto } from '../dtos/job.dto';
 import { SkipAuth } from '@/modules/auth/common/jwt.decorator';
-import { SearchSpecificationDto } from '@/base/api/dtos/query-specification.dto';
 
 @ApiTags('Jobs')
 @Controller('jobs')
@@ -28,7 +28,7 @@ export class JobController {
 
   @Get()
   @ApiOperation({ summary: 'Lấy danh sách tất cả công việc' })
-  findAll(@Query() dto: SearchSpecificationDto) {
+  findAll(@Query() dto: FilterJobDto) {
     return this.jobService.listWithPage(dto);
   }
 

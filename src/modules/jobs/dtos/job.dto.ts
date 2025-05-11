@@ -1,18 +1,20 @@
-import { ApiProperty, PartialType } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional, PartialType } from '@nestjs/swagger';
 import {
   IsBoolean,
-  IsDecimal,
   IsNotEmpty,
   IsNumber,
   IsOptional,
-  IsString, Min,
+  IsString,
+  Min,
 } from 'class-validator';
-import { Transform } from 'class-transformer';
+import { Transform, Type } from 'class-transformer';
 import {
   JOB_STATUS,
   JOB_TYPE,
   SALARY_PERIOD,
 } from '@/modules/jobs/enums/job.enum';
+import { QuerySpecificationDto } from '@/base/api/dtos/query-specification.dto';
+import { GreaterThan, GreaterThanOrEqual } from '@/base/validators/custom-validator.decorator';
 
 export class JobDto {
   @ApiProperty({ description: 'Company ID', example: 1 })
@@ -100,3 +102,32 @@ export class JobDto {
 
 export class CreateJobDto extends JobDto {}
 export class UpdateJobDto extends PartialType(CreateJobDto) {}
+
+export class FilterJobDto extends QuerySpecificationDto<any> {
+  @ApiPropertyOptional({ example: 'Hà nội' })
+  @IsOptional()
+  @IsString()
+  location?: string;
+
+  @ApiPropertyOptional({ example: 1 })
+  @IsOptional()
+  @Type(() => Number)
+  @IsNumber()
+  @Min(0)
+  jobCategoryId?: number;
+
+  @ApiPropertyOptional({ example: 5000000 })
+  @IsOptional()
+  @Type(() => Number)
+  @IsNumber()
+  @Min(0)
+  salaryGte?: number;
+
+  @ApiPropertyOptional({ example: 10000000 })
+  @IsOptional()
+  @Type(() => Number)
+  @IsNumber()
+  @Min(0)
+  @GreaterThanOrEqual('salaryGte')
+  salaryLte?: number;
+}
