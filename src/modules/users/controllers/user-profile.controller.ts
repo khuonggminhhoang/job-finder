@@ -1,6 +1,6 @@
 import {
   Body,
-  Controller,
+  Controller, Delete,
   Get,
   Post,
   UploadedFile,
@@ -14,6 +14,7 @@ import { UserAuth } from '@/modules/auth/common/jwt.decorator';
 import { MulterErrorFilter } from '@/base/util/multer.filter';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { UpdateProfileUserDto } from '@/modules/users/dtos/user.dto';
+import { FileBodyDto } from '@/base/api/dtos/common.dto';
 
 @ApiBearerAndTags('Profile user')
 @Controller('profile')
@@ -38,5 +39,23 @@ export class ProfileUserController {
     @UploadedFile() file?: Express.Multer.File,
   ) {
     return this.userService.updateProfile(dto, file);
+  }
+
+  @Post('me/portfolio')
+  @ApiOperation({ summary: 'upload portfolio cá nhân' })
+  @UseFilters(MulterErrorFilter)
+  @ApiConsumes('multipart/form-data')
+  @UseInterceptors(FileInterceptor('file'))
+  updatePortfolio(
+    @Body() dto: FileBodyDto,
+    @UploadedFile() file?: Express.Multer.File,
+  ) {
+    return this.userService.updatePortfolio(dto, file);
+  }
+
+  @Delete('me/portfolio')
+  @ApiOperation({ summary: 'xóa portfolio' })
+  deletePortfolio() {
+    return this.userService.deletePortfolio();
   }
 }

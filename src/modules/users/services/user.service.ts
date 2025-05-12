@@ -10,6 +10,7 @@ import { CommonAwsS3Service } from '@/modules/providers/aws/s3/aws-s3.service';
 import { config } from '@/config/config.service';
 import * as _ from 'lodash';
 import { JobEntity } from '@/modules/jobs/entities/job.entity';
+import { FileBodyDto } from '@/base/api/dtos/common.dto';
 
 @Injectable()
 export class UserService extends BaseCrudService<UserEntity> {
@@ -36,6 +37,9 @@ export class UserService extends BaseCrudService<UserEntity> {
     if (dto.photoFile) {
       record.avatar = dto.photoFile;
     }
+    if (dto.file) {
+      record.portfolio = dto.file;
+    }
     _.assign(
       record,
       _.pickBy(dto, (v) => v !== undefined),
@@ -53,6 +57,26 @@ export class UserService extends BaseCrudService<UserEntity> {
       dto.photoFile = resultUpload.uploadFile.path as string;
     }
     return this.updateOne(userId, dto);
+  }
+
+  async updatePortfolio(dto: FileBodyDto, file?: Express.Multer.File) {
+    const userId = this.getUser().id;
+    if (file) {
+      const resultUpload = await this.s3Service.uploadByMulter(
+        file,
+        config.S3.PATH.user(userId),
+      );
+      dto.file = resultUpload.uploadFile.path as string;
+    }
+    return this.updateOne(userId, dto);
+  }
+
+  async deletePortfolio() {
+    const user = this.getUser();
+    if (user.portfolio) {
+      user.portfolio = null;
+    }
+    return user.save();
   }
 
   async likeJob(userId: number, jobId: number) {

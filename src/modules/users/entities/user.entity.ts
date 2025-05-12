@@ -42,6 +42,9 @@ export class UserEntity extends BaseEntity {
   @Column({ name: 'about_me', type: 'text', nullable: true })
   aboutMe: string;
 
+  @Column({ name: 'portfolio', nullable: true })
+  portfolio: string;
+
   @Column({ name: 'auth_version', type: 'bigint', nullable: true, default: 0 })
   @Exclude()
   authVersion: number;

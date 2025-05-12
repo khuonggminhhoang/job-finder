@@ -21,7 +21,7 @@ import {
   TransformDate,
   Trim,
 } from '@/base/validators/validator.transformer';
-import { PhotoBodyDto } from '@/base/api/dtos/common.dto';
+import { FileBodyDto, PhotoBodyDto } from '@/base/api/dtos/common.dto';
 import { Type } from 'class-transformer';
 
 export class LoginAuthDto {
@@ -183,7 +183,7 @@ export class UserDto {
 }
 
 export class UpdateProfileUserDto extends PartialType(
-  IntersectionType(UserDto, PhotoBodyDto),
+  IntersectionType(UserDto, PhotoBodyDto, FileBodyDto),
 ) {
   avatar?: string;
 }

@@ -29,7 +29,7 @@ export class JobService extends BaseCrudService<JobEntity> {
       queryBuilder.andWhere(
         `LOWER(${this.alias}.location) LIKE LOWER(:location)`,
         {
-          location: `%${queryDto.location}%`,
+          location: `%${queryDto.location.trim()}%`,
         },
       );
 
@@ -44,7 +44,7 @@ export class JobService extends BaseCrudService<JobEntity> {
       });
 
     queryDto.salaryLte &&
-      queryBuilder.andWhere(`${this.alias}.salaryMax >= :salaryLte`, {
+      queryBuilder.andWhere(`${this.alias}.salaryMax <= :salaryLte`, {
         salaryLte: queryDto.salaryLte,
       });
 

@@ -88,7 +88,10 @@ export class ApplicationController {
 
   @Delete(':id')
   @ApiOperation({ summary: 'Xóa đơn ứng tuyển' })
-  remove(@Param('id', ParseIntPipe) id: number) {
-    return this.applicationService.softDeleteById(id);
+  remove(
+    @Param('id', ParseIntPipe) id: number,
+    @UserAuth('id') userId: number,
+  ) {
+    return this.applicationService.softDeleteBy({ id, userId });
   }
 }
