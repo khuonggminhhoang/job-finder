@@ -56,7 +56,7 @@ export class ConfigService {
   EMAIL_PORT = +(env.EMAIL_PORT ?? '587');
 
   GOOGLE_CLIENT_ID = env.GOOGLE_CLIENT_ID ?? '';
-  PAGINATION_PAGE_SIZE = 20;
+  PAGINATION_PAGE_SIZE = 5;
   UPLOAD_LIMIT = +env.UPLOAD_LIMIT || 5 * 1024 * 1024; // 5MB
 
   //AWS
