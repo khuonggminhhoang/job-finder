@@ -12,9 +12,13 @@ import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { ApiBearerAndTags } from '@/base/swagger/swagger.decorator';
 import {
   CreateNotificationDto,
+  PushNotificationDto,
   UpdateNotificationDto,
 } from '@/modules/notifications/dtos/notification.dto';
 import { SkipAuth, UserAuth } from '@/modules/auth/common/jwt.decorator';
+import { FirebaseFcmService } from '@/modules/providers/firebase/fcm/firebase-fcm.service';
+import { ExtractJwt } from 'passport-jwt';
+import fromAuthHeaderAsBearerToken = ExtractJwt.fromAuthHeaderAsBearerToken;
 
 @ApiBearerAndTags('Notifications')
 @Controller('notifications')
@@ -50,7 +54,10 @@ export class NotificationController {
 @SkipAuth()
 @Controller('notifications')
 export class NotificationPublicController {
-  constructor(private readonly notificationService: NotificationService) {}
+  constructor(
+    private readonly notificationService: NotificationService,
+    private readonly firebaseFcmService: FirebaseFcmService,
+  ) {}
 
   @Post()
   @ApiOperation({ summary: 'Tạo mới một thông báo' })
@@ -68,5 +75,15 @@ export class NotificationPublicController {
   @ApiOperation({ summary: 'Xóa một thông báo notification' })
   remove(@Param('id') id: number) {
     return this.notificationService.softDeleteById(id);
+  }
+
+  @Post('/push')
+  @ApiOperation({ summary: 'Thêm thông báo đẩy lên firebase' })
+  pushNoti(@Body() dto: PushNotificationDto) {
+    return this.firebaseFcmService.sendPushNotificationToDevice(
+      dto.deviceToken,
+      dto.title,
+      dto.body,
+    );
   }
 }

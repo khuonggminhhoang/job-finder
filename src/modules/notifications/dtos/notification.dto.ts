@@ -1,4 +1,9 @@
-import { ApiHideProperty, ApiProperty, PartialType } from '@nestjs/swagger';
+import {
+  ApiHideProperty,
+  ApiProperty,
+  OmitType,
+  PartialType,
+} from '@nestjs/swagger';
 import {
   IsInt,
   IsNotEmpty,
@@ -46,3 +51,17 @@ export class CreateNotificationDto extends NotificationDto {
 }
 
 export class UpdateNotificationDto extends PartialType(CreateNotificationDto) {}
+
+export class PushNotificationDto extends OmitType(NotificationDto, [
+  'message',
+]) {
+  @ApiProperty()
+  @IsNotEmpty()
+  @IsString()
+  deviceToken: string;
+
+  @ApiProperty()
+  @IsOptional()
+  @IsString()
+  body?: string;
+}

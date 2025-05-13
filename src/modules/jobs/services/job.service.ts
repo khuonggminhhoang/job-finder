@@ -23,7 +23,8 @@ export class JobService extends BaseCrudService<JobEntity> {
   ): Promise<SelectQueryBuilder<JobEntity>> {
     queryBuilder
       .leftJoinAndSelect(`${this.alias}.company`, 'companies')
-      .leftJoinAndSelect(`${this.alias}.category`, 'categories');
+      .leftJoinAndSelect(`${this.alias}.category`, 'categories')
+      .leftJoinAndSelect(`${this.alias}.users`, 'users');
 
     queryDto.location &&
       queryBuilder.andWhere(
