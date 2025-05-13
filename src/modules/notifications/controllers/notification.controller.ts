@@ -10,7 +10,10 @@ import {
 import { NotificationService } from '../services/notification.service';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { ApiBearerAndTags } from '@/base/swagger/swagger.decorator';
-import { CreateNotificationDto, UpdateNotificationDto } from '@/modules/notifications/dtos/notification.dto';
+import {
+  CreateNotificationDto,
+  UpdateNotificationDto,
+} from '@/modules/notifications/dtos/notification.dto';
 import { SkipAuth, UserAuth } from '@/modules/auth/common/jwt.decorator';
 
 @ApiBearerAndTags('Notifications')
@@ -32,8 +35,14 @@ export class NotificationController {
 
   @Patch(':id/read')
   @ApiOperation({ summary: 'Đánh dấu thông báo là đã đọc' })
-  markAsRead(@Param('id') id: number) {
-    return this.notificationService.markAsRead(+id);
+  markAsRead(@Param('id') id: number, @UserAuth('id') userId: number) {
+    return this.notificationService.markAsRead(+id, userId);
+  }
+
+  @Patch('/read-all')
+  @ApiOperation({ summary: 'Đánh dấu tất cả thông báo là đã đọc' })
+  markAllAsRead(@UserAuth('id') userId: number) {
+    return this.notificationService.markAllAsRead(userId);
   }
 }
 
