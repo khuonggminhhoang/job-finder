@@ -10,10 +10,11 @@ import {
   multerConfig,
   UPLOAD_PDF_EXTNAME,
 } from '@/base/util/multer.helper';
+import { NotificationEntity } from '@/modules/notifications/entities/notification.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([ApplicationEntity]),
+    TypeOrmModule.forFeature([ApplicationEntity, NotificationEntity]),
     S3Module,
     MulterModule.register(
       multerConfig({

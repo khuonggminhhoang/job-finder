@@ -30,6 +30,10 @@ export class FirebaseFcmService implements OnModuleInit {
     body: string,
     data?: { [key: string]: string },
   ): Promise<string> {
+    data = {
+      title: 'Test',
+      body: 'Nội dung test',
+    };
     const message: Message = {
       notification: { title, body },
       data,

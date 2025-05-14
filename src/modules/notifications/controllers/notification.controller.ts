@@ -77,7 +77,7 @@ export class NotificationPublicController {
     return this.notificationService.softDeleteById(id);
   }
 
-  @Post('/push')
+  @Post('/push/fcm')
   @ApiOperation({ summary: 'Thêm thông báo đẩy lên firebase' })
   pushNoti(@Body() dto: PushNotificationDto) {
     return this.firebaseFcmService.sendPushNotificationToDevice(
