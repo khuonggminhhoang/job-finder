@@ -28,9 +28,14 @@ export class NotificationService extends BaseCrudService<NotificationEntity> {
     queryDto?: QuerySpecificationDto,
   ): Promise<SelectQueryBuilder<NotificationEntity>> {
     const user = this.getUser();
-    queryBuilder = queryBuilder.andWhere(`${this.alias}.userId = :userId`, {
-      userId: user.id,
-    });
+    queryBuilder
+      .andWhere(`${this.alias}.userId = :userId`, {
+        userId: user.id,
+      })
+      .leftJoinAndSelect(`${this.alias}.application`, 'applications')
+      .leftJoinAndSelect(`applications.job`, 'jobs')
+      .leftJoinAndSelect(`jobs.company`, 'companies')
+      .leftJoinAndSelect(`jobs.category`, 'categories');
     return super.actionPreList(queryBuilder, queryDto);
   }
 
