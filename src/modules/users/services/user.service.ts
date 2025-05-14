@@ -74,36 +74,55 @@ export class UserService extends BaseCrudService<UserEntity> {
   async deletePortfolio() {
     const user = this.getUser();
     if (user.portfolio) {
+      // Optionally, delete the file from S3 here if needed
+      // await this.s3Service.deleteFile(user.portfolio);
       user.portfolio = null;
     }
     return user.save();
   }
 
   async likeJob(userId: number, jobId: number) {
-    const user = await this.userRepository.findOne({ where: { id: userId } });
+    const user = await this.userRepository.findOne({
+      where: { id: userId },
+      relations: ['jobs'], 
+    });
     const job = await this.jobRepository.findOne({ where: { id: jobId } });
 
-    if (!user || !job) {
-      throw new Error('User or job not found');
+    if (!user) {
+      throw new Error('User not found');
+    }
+    if (!job) {
+      throw new Error('Job not found');
     }
 
-    user.jobs = [...(user.jobs || []), job];
+    if (!user.jobs) {
+      user.jobs = [];
+    }
+
+    const isAlreadyLiked = user.jobs.some(savedJob => savedJob.id === job.id);
+    if (!isAlreadyLiked) {
+      user.jobs.push(job); 
+    }
+    
     return await this.userRepository.save(user);
   }
 
   async unlikeJob(userId: number, jobId: number): Promise<void> {
     const user = await this.userRepository.findOne({
       where: { id: userId },
-      relations: ['jobs'],
+      relations: ['jobs'], 
     });
-    const job = await this.jobRepository.findOne({ where: { id: jobId } });
 
-    if (!user || !job) {
-      throw new Error('User or job not found');
+    if (!user) {
+      throw new Error('User not found');
     }
 
-    user.jobs = user.jobs.filter((savedJob) => savedJob.id !== jobId);
-    await this.userRepository.save(user);
+    if (user.jobs) {
+        user.jobs = user.jobs.filter((savedJob) => savedJob.id !== jobId);
+        await this.userRepository.save(user);
+    } else {
+        console.warn(`User ${userId} has no jobs loaded to unlike job ${jobId}.`);
+    }
   }
 
   async getSavedJobs(userId: number) {
